@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/DevZahraShahid/Visits-Docker#readme",
   "dependencies": {
-    "express" : "*",
-    "redis":"4.3.0"
+    "express": "*",
+    "ioredis": "^5.2.3",
+    "redis": "3.1.2"
   }
 }

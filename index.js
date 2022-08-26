@@ -1,10 +1,21 @@
 const express = require("express");
-const redis = require("redis");
+const redis = require("ioredis");
 const app = express();
 
+const process = require("process");
+
 //connection to redis server
-const client = redis.createClient();
-client.set("visits", 0);
+const client = redis.createClient({
+  host: "redis-server",
+  port: 6379, //default redis server
+});
+
+client.on("connect", () => {
+  console.log("connected to redis successfully!");
+});
+client.on("error", (err) => console.log("Redis Client Error", err));
+
+client.set("visits", 0); //key,value
 
 app.get("/", (req, res) => {
   client.get("visits", (err, visits) => {
@@ -13,5 +24,5 @@ app.get("/", (req, res) => {
   });
 });
 
-const port = process.env.port || 3000;
+const port = process.env.port || 8080;
 app.listen(port, () => console.log(`Listening on port: ${port}`));
